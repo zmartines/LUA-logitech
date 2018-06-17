@@ -1,0 +1,110 @@
+function OnEvent(event,arg)
+	if(event =="MOUSE_BUTTON_RELEASED" and arg ==  4)  then
+		OutputLogMessage("event = %s, arg =%s\n",event,arg);
+	end 
+
+	if(event == "MOUSE_BUTTON_RELEASED" and arg == 4) then   
+		OutputLogMessage("event = %s, arg =%s\n",event,arg);
+		trasken();
+
+	end 
+
+end
+
+function fn_IncMouseRelative(X, Y, inc, delay)
+ delay = delay or 0
+
+ function math.round(num)
+  return math.floor( num + 0.5 )
+ end
+
+ if inc < 1 or delay < 0 then
+  return
+ end
+
+ local increments, Yinc, Yinc, Xunary, Yunary
+ local x, y, i, Xremainder, Yremainder, Xtotal, Ytotal
+
+ X = math.round(X)
+ Y = math.round(Y)
+ if math.abs(X) >= math.abs(Y) then
+  increments = math.abs(X) / inc
+  Xinc = inc
+  Yinc = math.abs(Y) / increments
+ else
+  increments = math.abs(Y) / inc
+  Xinc = math.abs(X) / increments
+  Yinc = inc
+ end
+
+ if X < 0 then
+  Xunary = -1
+ else
+  Xunary = 1
+ end
+
+ if Y < 0 then
+  Yunary = -1
+ else
+  Yunary = 1
+ end
+ Xtotal = 0; Ytotal = 0
+ Xremainder = 0; Yremainder = 0
+ for i = 1, increments do
+  prevX = Xtotal
+  prevY = Ytotal
+
+  Xtotal = Xtotal + Xinc + Xremainder
+  Ytotal = Ytotal + Yinc + Yremainder
+
+  Xremainder = Xtotal - math.round(Xtotal)
+  Yremainder = Ytotal - math.round(Ytotal)
+
+  Xtotal = math.round(Xtotal)
+  Ytotal = math.round(Ytotal)
+
+  x = Xunary * (Xtotal - prevX)
+  y = Yunary * (Ytotal - prevY)
+
+  MoveMouseRelative(x, y)
+
+--  log("i = %d, Xinc = %d, Yinc = %d, x = %d, y = %d\n", i, Xinc, Yinc, x, y)
+  if delay > 0 then
+   Sleep(delay)
+  end
+ end
+end
+
+
+
+
+
+function trasken()
+ while IsKeyLockOn("capslock") do
+
+Sleep(1);
+PressAndReleaseKey ("r");
+Sleep(1);
+PressAndReleaseMouseButton("1");
+Sleep(1);
+PressAndReleaseMouseButton("1");
+Sleep(1);
+  PressAndReleaseMouseButton("1");
+
+Sleep(3);
+  fn_IncMouseRelative(0,-175,40,0);
+Sleep(1);
+  PressAndReleaseMouseButton("1");
+Sleep(1);
+  PressAndReleaseMouseButton("1");
+Sleep(1);
+  PressAndReleaseMouseButton("1");
+Sleep(3);
+  fn_IncMouseRelative(0,175,40,0);
+
+PressAndReleaseKey ("up");
+Sleep(3);
+  MoveMouseWheel(-30);
+
+ end
+end
